@@ -1,7 +1,11 @@
-#include "philosopher.h"
+#include "../includes/philosopher.h"
 
 int main(int argc, char **argv)
 {
-    if(argc < 10)
-        ft_printf("%s", argv[0]);
+    t_philo *philosopher;
+
+    philosopher = initialising_philosopher(argc, argv);
+	ft_printf("%d", philosopher->num_of_philos);
+    free(philosopher);
+    return (0);
 }

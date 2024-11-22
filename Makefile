@@ -3,7 +3,9 @@ CFLAGS = -Wall -Wextra -Werror
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I./includes
-SRC = srcs/main.c
+SRC = srcs/main.c \
+	  srcs/initialising/initialising.c \
+	  srcs/error/error.c
 
 OBJ = $(SRC:.c=.o)
 NAME = philosopher
