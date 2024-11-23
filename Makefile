@@ -4,7 +4,7 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I./includes
 SRC = srcs/main.c \
-	  srcs/initialising/initialising.c \
+	  srcs/initialising/parsing/parsing_argument.c \
 	  srcs/error/error.c
 
 OBJ = $(SRC:.c=.o)

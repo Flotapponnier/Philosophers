@@ -2,10 +2,12 @@
 
 int main(int argc, char **argv)
 {
-    t_philo *philosopher;
+	t_table *table;
 
-    philosopher = initialising_philosopher(argc, argv);
-	ft_printf("%d", philosopher->num_of_philos);
-    free(philosopher);
+    if(is_valid_input(argc, argv))
+	{
+		table = initialising_table(argc, argv);
+	}
+	ft_printf("valid argument");
     return (0);
 }
