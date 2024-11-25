@@ -5,6 +5,10 @@ LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I./includes
 SRC = srcs/main.c \
 	  srcs/initialising/parsing/parsing_argument.c \
+	  srcs/initialising/initialising_table.c \
+	  srcs/starting/starting_simulation.c \
+	  srcs/starting/simulation_utils.c \
+	  srcs/time/time.c \
 	  srcs/error/error.c
 
 OBJ = $(SRC:.c=.o)

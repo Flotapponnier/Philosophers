@@ -6,7 +6,7 @@
 /*   By: ftapponn <ftapponn@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 16:18:25 by ftapponn          #+#    #+#             */
-/*   Updated: 2024/11/23 17:54:51 by ftapponn         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:50:55 by ftapponn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,17 +107,33 @@ static bool	init_global_mutexes(t_table *table)
 	return (true);
 }
 
-t_table *initialising_table(int ac, char **av, t_table *table)
+
+t_table *initialising_table(int ac, char **av)
 {
-	table = malloc(sizeof(t_table));
-	if(!table)
-		return (exit_philo(NULL, "MALLOC FAILED"), NULL);
-	table->num_of_philos = integer_atoi(av[1]);
-	table->time_to_die = integer_atoi(av[2]);
-	table->time_to_eat = integer_atoi(av[3]);
-	table->time_to_sleep = integer_atoi(av[4]);
-	table->times_should_eat = -1;
-	if(ac == 6)
-		table->times_should_eat = integer_atoi(av[5]);
-	return (table);
+    t_table *table;
+
+    table = malloc(sizeof(t_table));
+    if (!table)
+        return (exit_philo(NULL, "MALLOC FAILED"), NULL);
+    table->num_of_philos = integer_atoi(av[1]);
+    table->time_to_die = integer_atoi(av[2]);
+    table->time_to_eat = integer_atoi(av[3]);
+    table->time_to_sleep = integer_atoi(av[4]);
+    table->times_should_eat = -1;
+    if (ac == 6)
+        table->times_should_eat = integer_atoi(av[5]);
+
+    // Initialize philosophers
+    table->philos = init_philosophers(table);
+    if (!table->philos)
+        return (exit_philo(table, "PHILOSOPHER INIT FAILED"), NULL);
+
+    // Initialize global mutexes (forks, locks, etc.)
+    if (!init_global_mutexes(table))
+        return (exit_philo(table, "MUTEX INIT FAILED"), NULL);
+
+    // Set simulation stop flag
+    table->sim_stop = false;
+
+    return (table);
 }
