@@ -9,17 +9,21 @@
 #define ERROR_OVERFLOW_INT "NUMBER IS EXCEEDING THE EXPECTED VALUE"
 #define ERROR_ARGUMENT "ARGUMENT FORMAT ./philosopher <number of philosopher> <time to die> <time to eat> <time to sleep> <optional : number of time philosopher should eat>"
 #define ERROR_MALLOC "ERROR ALLOCATING MEMORY"
+#define ERROR_INIT_PHILOS " PHILOSOPHER INITIALISATION FAILED"
+#define ERROR_INIT_MUTEX "ERROR INITIALISING MUTEX"
 
-#include "libft.h"
 #include <pthread.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <limits.h>
 #include <stdbool.h>
 #include <sys/time.h> 
+#include <unistd.h>
 
 typedef struct s_table t_table; 
 
-typedef struct s_philo {
+typedef struct s_philo
+{
 	pthread_t		thread;
     unsigned int    id;                 // Philosopher's ID (0-indexed)
     int             times_ate;          // Count of meals eaten by this philosopher
@@ -29,8 +33,8 @@ typedef struct s_philo {
     t_table         *table;             // Pointer to the shared table structure
 } t_philo;
 
-
-typedef struct s_table {
+typedef struct s_table
+{
 
 	time_t 			start_time;
     unsigned int    num_of_philos;       // Number of philosophers
@@ -56,16 +60,16 @@ typedef enum e_status
 }	t_status;
 
 //parsing argument
-int integer_atoi(char *str);
+int myphilo_atoi(char *str);
 bool is_valid_input(int ac, char **av);
-void exit_philo(t_table *table, char *s);
+bool exit_philo(t_table *table, char *s);
 
 
 //initialising
-t_table *initialising_table(int ac, char **av);
+bool initialising_table(int ac, char **av, t_table **table);
 
 //starting_simulation
-bool starting_simulation(t_table *table);
+bool starting_simulation(t_table *table);void *philosopher(void *data);
 void *philosopher(void *data);
 
 //simulation utils

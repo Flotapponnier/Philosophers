@@ -56,14 +56,14 @@ void print_table(t_table *table)
 int main(int argc, char **argv)
 {
 	t_table *table;
-	
 
     if(!is_valid_input(argc, argv))
 		return (1);
-	table = initialising_table(argc, argv);
-	ft_printf("valid argument");
+	if(!initialising_table(argc, argv, &table))
+		return (1);
+
+	printf("valid argument");
 	print_table(table);
-	printf("Hello");
 	starting_simulation(table);
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ftapponn <ftapponn@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 15:42:18 by ftapponn          #+#    #+#             */
-/*   Updated: 2024/11/23 16:04:14 by ftapponn         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:43:00 by ftapponn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static bool	contains_only_digits(char *str)
 	}
 	return (true);
 }
-int	integer_atoi(char *str)
+int	myphilo_atoi(char *str)
 {
 	unsigned long long int	nb;
 	int						i;
@@ -49,16 +49,16 @@ bool	is_valid_input(int ac, char **av)
 
 	i = 1;
 	if(ac < 5 || ac > 6)
-		return (exit_philo(NULL, ERROR_ARGUMENT), false);
+		return (exit_philo(NULL, ERROR_ARGUMENT));
 	while (i < ac)
 	{
 		if (!contains_only_digits(av[i]))
-			return (exit_philo(NULL, ERROR_DIGIT), false);
-		nb = integer_atoi(av[i]);
+			return (exit_philo(NULL, ERROR_DIGIT));
+		nb = myphilo_atoi(av[i]);
 		if (i == 1 && (nb <= 0 || nb > MAX_PHILOS))
-			return (exit_philo(NULL, ERROR_NUM_PHILOS), false);
+			return (exit_philo(NULL, ERROR_NUM_PHILOS));
 		if (i != 1 && nb == -1)
-			return (exit_philo(NULL, ERROR_OVERFLOW_INT), false);
+			return (exit_philo(NULL, ERROR_OVERFLOW_INT));
 		i++;
 	}
 	return (true);
