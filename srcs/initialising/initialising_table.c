@@ -6,7 +6,7 @@
 /*   By: ftapponn <ftapponn@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 16:18:25 by ftapponn          #+#    #+#             */
-/*   Updated: 2024/11/26 11:11:54 by ftapponn         ###   ########.fr       */
+/*   Updated: 2024/11/26 15:55:42 by ftapponn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static pthread_mutex_t	*init_forks(t_table *table)
 	i = 0;
 	while (i < table->num_of_philos)
 	{
-		if (pthread_mutex_init(&forks[i], 0) != 0)
+		if (!safe_mutex(&forks[i], INIT))
 			return (false);
 		i++;
 	}
@@ -56,7 +56,7 @@ static bool	init_philosophers(t_table *table)
 		philos[i] = malloc(sizeof(t_philo) * 1);
 		if (!philos[i])
 			return (false);
-		if (pthread_mutex_init(&philos[i]->meal_time_lock, 0) != 0)
+		if (!safe_mutex(&philos[i]->meal_time_lock, INIT))
 			return (false);
 		philos[i]->table = (table);
 		philos[i]->id = i;
@@ -71,9 +71,9 @@ static bool	init_global_mutexes(t_table *table)
 	table->fork_locks = init_forks(table);
 	if (!table->fork_locks)
 		return (false);
-	if (pthread_mutex_init(&table->sim_stop_lock, 0) != 0)
+	if (!safe_mutex(&table->sim_stop_lock, INIT))
 		return false;
-	if (pthread_mutex_init(&table->write_lock, 0) != 0)
+	if (!safe_mutex(&table->write_lock, INIT))
 		return false;
 	return (true);
 }
@@ -89,8 +89,7 @@ bool initialising_table(int ac, char **av, t_table **table)
     (*table)->time_to_eat = myphilo_atoi(av[3]);
     (*table)->time_to_sleep = myphilo_atoi(av[4]);
     (*table)->times_should_eat = -1;
-    if (ac == 6)
-        (*table)->times_should_eat = myphilo_atoi(av[5]);
+    if (ac == 6) (*table)->times_should_eat = myphilo_atoi(av[5]);
     if(!init_philosophers(*table))
 		return(exit_philo((*table), ERROR_INIT_PHILOS));
     if (!init_global_mutexes((*table)))

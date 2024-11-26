@@ -1,6 +1,8 @@
 #ifndef PHILOSOPHER_H
 #define PHILOSOPHER_H
 
+# define RESET		"\033[0m"
+# define MAGENTA	"\033[1;35m"
 #define MAX_PHILOS 200
 #define MAX_MS 60000
 #define ERROR_MESSAGE "ERROR\n"
@@ -59,6 +61,17 @@ typedef enum e_status
 	GOT_FORK_2 = 5
 }	t_status;
 
+typedef enum e_code
+{
+	INIT,
+	CREATE,
+	LOCK,
+	UNLOCK,
+	JOIN,
+	DETACH,
+	DESTROY,
+}			t_code;
+
 //parsing argument
 int myphilo_atoi(char *str);
 bool is_valid_input(int ac, char **av);
@@ -79,11 +92,24 @@ bool	has_simulation_stopped(t_table *table);
 
 //philosopher_routine
 void	*philosopher_thinking(t_philo *philo);
-void philosopher_eat(t_philo *philo);
+void 	philosopher_eat(t_philo *philo);
 void	philosopher_sleeping(t_table *table, time_t sleep_time);
-
 
 //time
 time_t get_time_in_ms();
 
+//error
+
+//error utils
+void	ft_putstr_fd(char *str, int fd);
+int		ft_strlen(char *str);
+
+//set_get_bool.c
+void	set_bool(pthread_mutex_t *mutex, bool *dst, bool value);
+bool	get_bool(pthread_mutex_t *mutex, bool *value);
+void	set_long(pthread_mutex_t *mutex, long *dst, long value);
+long	get_long(pthread_mutex_t *mutex, long *value);
+
+//safe_thread_mutex
+bool safe_mutex(pthread_mutex_t *mutex, t_code code);
 #endif

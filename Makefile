@@ -8,7 +8,10 @@ SRC = srcs/main.c \
 	  srcs/starting/simulation_utils.c \
 	  srcs/starting/philosopher_routine.c \
 	  srcs/time/time.c \
-	  srcs/error/error.c
+	  srcs/error/error.c \
+	  srcs/error/error_utils.c \
+	  srcs/thread_mutex/set_get_bool.c \
+	  srcs/thread_mutex/handle.c 
 
 OBJ = $(SRC:.c=.o)
 NAME = philosopher
