@@ -97,6 +97,7 @@ void	philosopher_sleeping(t_table *table, time_t sleep_time);
 
 //time
 time_t get_time_in_ms();
+void	sim_start_synchro(time_t start_time);
 
 //error
 
