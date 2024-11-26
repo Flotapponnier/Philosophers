@@ -28,9 +28,9 @@ typedef struct s_philo
 {
 	pthread_t		thread;
     unsigned int    id;                 // Philosopher's ID (0-indexed)
-    int             times_ate;          // Count of meals eaten by this philosopher
-    long long       last_meal_time;     // Timestamp of the last meal (in milliseconds)
-    int             fork[2];            // Indices of forks this philosopher uses
+    long             times_ate;          // Count of meals eaten by this philosopher
+    long 	      last_meal_time;     // Timestamp of the last meal (in milliseconds)
+    long             fork[2];            // Indices of forks this philosopher uses
     pthread_mutex_t meal_time_lock;     // Mutex for meal time access
     t_table         *table;             // Pointer to the shared table structure
 } t_philo;
@@ -43,7 +43,7 @@ typedef struct s_table
     time_t    		time_to_die;        // Time (ms) before a philosopher dies without eating
     time_t		    time_to_eat;        // Time (ms) a philosopher spends eating
     time_t    		time_to_sleep;      // Time (ms) a philosopher spends sleeping
-    int             times_should_eat;   // Number of meals required for each philosopher (-1 if infinite)
+    long            times_should_eat;   // Number of meals required for each philosopher (-1 if infinite)
     bool            sim_stop;           // Flag to stop simulation
     pthread_mutex_t sim_stop_lock;      // Mutex for sim_stop flag
     pthread_mutex_t write_lock;         // Mutex for console output

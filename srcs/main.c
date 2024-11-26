@@ -16,7 +16,7 @@ void print_table(t_table *table)
     printf("  Time to Die: %ld ms\n", table->time_to_die);
     printf("  Time to Eat: %ld ms\n", table->time_to_eat);
     printf("  Time to Sleep: %ld ms\n", table->time_to_sleep);
-    printf("  Times Philosophers Should Eat: %d\n", table->times_should_eat);
+    printf("  Times Philosophers Should Eat: %ld\n", table->times_should_eat);
     printf("  Simulation Stop Flag: %s\n", table->sim_stop ? "True" : "False");
     // Check fork locks
     if (!table->fork_locks)
@@ -42,9 +42,9 @@ void print_table(t_table *table)
         }
         printf("  Philosopher %u:\n", i + 1);
         printf("    ID: %u\n", philo->id);
-        printf("    Times Ate: %d\n", philo->times_ate);
-        printf("    Last Meal Time: %lld\n", philo->last_meal_time);
-        printf("    Forks: [%d, %d]\n", philo->fork[0], philo->fork[1]);
+        printf("    Times Ate: %ld\n", philo->times_ate);
+        printf("    Last Meal Time: %ld\n", philo->last_meal_time);
+        printf("    Forks: [%ld, %ld]\n", philo->fork[0], philo->fork[1]);
     }
     // Check global mutexes
     printf("Global Mutexes:\n");
