@@ -37,7 +37,7 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-
+	pthread_t		monitor;
 	time_t 			start_time;
     unsigned int    num_of_philos;       // Number of philosophers
     time_t    		time_to_die;        // Time (ms) before a philosopher dies without eating
@@ -86,12 +86,11 @@ bool starting_simulation(t_table *table);void *philosopher(void *data);
 void *philosopher(void *data);
 
 //simulation utils
-void	write_status(t_philo *philo, bool reaper_report, t_status status);
-bool	stop_simulation(void);
+void	write_status(t_philo *philo, t_status status);
 bool	has_simulation_stopped(t_table *table);
 
 //philosopher_routine
-void	*philosopher_thinking(t_philo *philo);
+void	*philosopher_thinking(t_philo *philo, bool silent);
 void 	philosopher_eat(t_philo *philo);
 void	philosopher_sleeping(t_table *table, time_t sleep_time);
 
@@ -114,4 +113,7 @@ long	get_long(pthread_mutex_t *mutex, long *value);
 //safe_thread_mutex
 bool safe_mutex(pthread_mutex_t *mutex, t_code code);
 bool safe_thread(pthread_t *thread_info, void *(*foo)(void *), void *t_data, t_code code);
+
+//monitor
+void	*monitor(void *data);
 #endif

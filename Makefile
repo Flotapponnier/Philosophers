@@ -11,7 +11,8 @@ SRC = srcs/main.c \
 	  srcs/error/error.c \
 	  srcs/error/error_utils.c \
 	  srcs/thread_mutex/set_get_bool.c \
-	  srcs/thread_mutex/handle.c 
+	  srcs/thread_mutex/handle.c \
+	  srcs/monitor/monitor.c 
 
 OBJ = $(SRC:.c=.o)
 NAME = philosopher

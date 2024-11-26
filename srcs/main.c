@@ -53,6 +53,21 @@ void print_table(t_table *table)
 }
 
 
+void	stop_simulation(t_table	*table)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i < table->num_of_philos)
+	{
+		pthread_join(table->philos[i]->thread, NULL);
+		i++;
+	}
+	if (table->num_of_philos > 1)
+		pthread_join(table->monitor, NULL);
+	exit_philo(table,NULL);
+}
+
 int main(int argc, char **argv)
 {
 	t_table *table;
@@ -64,5 +79,6 @@ int main(int argc, char **argv)
 	print_table(table);
 	if (!starting_simulation(table))
 		return (1);
+	stop_simulation(table);
     return (0);
 }
