@@ -4,13 +4,13 @@ bool stop_simulation(void)
 {
 	return true;
 }
-
 bool	has_simulation_stopped(t_table *table)
 {
 	table->start_time++;
 	table->start_time--;
 	return (false);
 }
+
 
 /* print_status:
 *	Prints a philosopher's status in plain text as required by the project

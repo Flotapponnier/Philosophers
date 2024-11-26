@@ -24,7 +24,7 @@ bool	starting_simulation(t_table *table)
     if(table->times_should_eat == 0)
 			return (NULL); 
 	// Set the start time for the simulation
-    table->start_time = get_time_in_ms() + (table->num_of_philos * 2 * 10);
+    table->start_time = get_time_in_ms() ;
     i = 0;
 
     // Create a thread for each philosopher
