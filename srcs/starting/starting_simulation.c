@@ -30,17 +30,16 @@ bool	starting_simulation(t_table *table)
     // Create a thread for each philosopher
     while (i < table->num_of_philos)
     {
-        if (pthread_create(&table->philos[i]->thread, NULL, philosopher, table->philos[i]) != 0)
-            return (exit_philo(table, "Problem with creation of thread"), true);
+	if (!safe_thread(&table->philos[i]->thread, philosopher, table->philos[i], CREATE))
+            return (exit_philo(table, "Problem with creation of thread"));
         printf("Thread philosopher %d created with success\n", i + 1);
-
         i++;
     }
 	i = 0;
 	while(i < table->num_of_philos)
 	{
-		if(pthread_join(table->philos[i]->thread, NULL) != 0)
-			return (exit_philo(table, "Problem with joining thread"), true);
+		if (!safe_thread(&table->philos[i]->thread, NULL, NULL, JOIN))
+			return (exit_philo(table, "Problem with joining thread"));
 		printf("Thread philosopher %d Join succesfully\n", table->philos[i]->id);
 		i++;	
 	}

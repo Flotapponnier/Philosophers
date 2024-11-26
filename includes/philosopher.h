@@ -112,4 +112,5 @@ long	get_long(pthread_mutex_t *mutex, long *value);
 
 //safe_thread_mutex
 bool safe_mutex(pthread_mutex_t *mutex, t_code code);
+bool safe_thread(pthread_t *thread_info, void *(*foo)(void *), void *t_data, t_code code);
 #endif

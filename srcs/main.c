@@ -61,9 +61,8 @@ int main(int argc, char **argv)
 		return (1);
 	if(!initialising_table(argc, argv, &table))
 		return (1);
-
-	printf("valid argument");
 	print_table(table);
-	starting_simulation(table);
+	if (!starting_simulation(table))
+		return (1);
     return (0);
 }
