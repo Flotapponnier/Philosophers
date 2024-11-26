@@ -66,10 +66,17 @@ t_table *initialising_table(int ac, char **av);
 
 //starting_simulation
 bool starting_simulation(t_table *table);
+void *philosopher(void *data);
 
 //simulation utils
 void	write_status(t_philo *philo, bool reaper_report, t_status status);
-bool stop_simulation(void);
+bool	stop_simulation(void);
+bool	has_simulation_stopped(t_table *table);
+
+//philosopher_routine
+void	*philosopher_thinking(t_philo *philo);
+void philosopher_eat(t_philo *philo);
+void	philosopher_sleeping(t_table *table, time_t sleep_time);
 
 
 //time

@@ -8,6 +8,7 @@ SRC = srcs/main.c \
 	  srcs/initialising/initialising_table.c \
 	  srcs/starting/starting_simulation.c \
 	  srcs/starting/simulation_utils.c \
+	  srcs/starting/philosopher_routine.c \
 	  srcs/time/time.c \
 	  srcs/error/error.c
 
