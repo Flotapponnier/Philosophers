@@ -6,7 +6,7 @@
 /*   By: ftapponn <ftapponn@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:32:16 by ftapponn          #+#    #+#             */
-/*   Updated: 2024/11/27 16:32:20 by ftapponn         ###   ########.fr       */
+/*   Updated: 2024/11/27 17:11:26 by ftapponn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,8 @@ static void	*one_philo_routine(t_philo *philo)
 void	*philosopher(void *data)
 {
 	t_philo	*philo;
-	bool	simulation_false;
 
 	philo = (t_philo *)data;
-	simulation_false = get_bool(&philo->table->sim_stop_lock,
-			&philo->table->sim_stop);
 	if (philo->table->times_should_eat == 0)
 		return (NULL);
 	set_long(&philo->meal_time_lock, &philo->last_meal_time,
@@ -64,8 +61,6 @@ void	*philosopher(void *data)
 	{
 		philosopher_eat(philo);
 		philosopher_thinking(philo, false);
-		simulation_false = get_bool(&philo->table->sim_stop_lock,
-				&philo->table->sim_stop);
 	}
 	return (NULL);
 }
