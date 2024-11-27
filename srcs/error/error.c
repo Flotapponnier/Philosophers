@@ -8,7 +8,7 @@ static void free_forks(t_table *table)
     {
         while (i < table->num_of_philos)
         {
-            pthread_mutex_destroy(&table->fork_locks[i]);
+        	safe_mutex(&table->fork_locks[i], DESTROY);
             i++;
         }
         free(table->fork_locks);
@@ -25,8 +25,8 @@ static void free_philosophers(t_table *table)
         {
             if (table->philos[i])
             {
-                pthread_mutex_destroy(&table->philos[i]->meal_time_lock);
-                free(table->philos[i]);
+    			safe_mutex(&table->philos[i]->meal_time_lock, DESTROY);
+				free(table->philos[i]);
             }
             i++;
         }
@@ -36,8 +36,8 @@ static void free_philosophers(t_table *table)
 
 static void free_table(t_table *table)
 {
-    pthread_mutex_destroy(&table->sim_stop_lock);
-    pthread_mutex_destroy(&table->write_lock);
+    safe_mutex(&table->sim_stop_lock, DESTROY);
+	safe_mutex(&table->write_lock, DESTROY);
     free(table);
 }
 

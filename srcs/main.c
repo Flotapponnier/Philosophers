@@ -1,6 +1,6 @@
 #include "../includes/philosopher.h"
 
-
+/*
 void print_table(t_table *table)
 {
     unsigned int i;
@@ -51,22 +51,8 @@ void print_table(t_table *table)
     printf("  Simulation Stop Lock: Initialized\n");
     printf("  Write Lock: Initialized\n");
 }
+*/
 
-
-void	stop_simulation(t_table	*table)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (i < table->num_of_philos)
-	{
-		pthread_join(table->philos[i]->thread, NULL);
-		i++;
-	}
-	if (table->num_of_philos > 1)
-		pthread_join(table->monitor, NULL);
-	exit_philo(table,NULL);
-}
 
 int main(int argc, char **argv)
 {
@@ -76,7 +62,6 @@ int main(int argc, char **argv)
 		return (1);
 	if(!initialising_table(argc, argv, &table))
 		return (1);
-	print_table(table);
 	if (!starting_simulation(table))
 		return (1);
 	stop_simulation(table);

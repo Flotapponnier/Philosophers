@@ -26,9 +26,9 @@ bool safe_mutex(pthread_mutex_t *mutex, t_code code)
     return mutex_error_check(status);
 }
 
-static bool thread_error_check(int status, t_code ftcode)
+static bool thread_error_check(int status, t_code code)
 {
-    if (status != 0 && (ftcode == CREATE || ftcode == JOIN || ftcode == DETACH))
+    if (status != 0 && (code == CREATE || code == JOIN || code == DETACH))
         return (false);
     return (true);
 }

@@ -2,15 +2,12 @@
 
 void	philosopher_sleeping(t_table *table, time_t sleep_time)
 {
-	time_t	wake_up;
+	time_t	is_wake_up;
 
-	bool simulation_false;
-
-	simulation_false = get_bool(&table->sim_stop_lock, &table->sim_stop);
-	wake_up = get_time_in_ms() + sleep_time;
-	while (get_time_in_ms() < wake_up)
+	is_wake_up = get_time_in_ms() + sleep_time;
+	while (get_time_in_ms() < is_wake_up)
 	{
-		if (has_simulation_stopped(table))
+		if (check_simulation(table))
 			break ;
 		usleep(100);
 	}
@@ -25,7 +22,7 @@ void philosopher_eat(t_philo *philo)
 	write_status(philo, EATING);
 	set_long(&philo->meal_time_lock, &philo->last_meal_time, get_time_in_ms());
 	philosopher_sleeping(philo->table, philo->table->time_to_eat);
-	if (has_simulation_stopped(philo->table) == false)
+	if (check_simulation(philo->table) == false)
 		set_long(&philo->meal_time_lock, &philo->times_ate, philo->times_ate + 1);
 	write_status(philo, SLEEPING);
 	safe_mutex(&philo->table->fork_locks[philo->fork[1]], UNLOCK);
@@ -35,13 +32,11 @@ void philosopher_eat(t_philo *philo)
 
 void	*philosopher_thinking(t_philo *philo, bool silent)
 {
-	time_t time_thinking;
+    time_t time_thinking;
 
-	pthread_mutex_lock(&philo->meal_time_lock);
-	time_thinking = (philo->table->time_to_die
-			- (get_time_in_ms() - philo->last_meal_time)
-			- philo->table->time_to_eat) / 2;
-	pthread_mutex_unlock(&philo->meal_time_lock);
+	time_thinking = (philo->table->time_to_die 
+                 - (get_time_in_ms() - get_long(&philo->meal_time_lock, &philo->last_meal_time))
+                 - philo->table->time_to_eat) / 2;
 	if (time_thinking < 0)
 		time_thinking= 0;
 	if (time_thinking == 0 && silent == true)

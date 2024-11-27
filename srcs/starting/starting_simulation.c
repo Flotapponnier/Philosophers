@@ -1,12 +1,31 @@
 #include "../../includes/philosopher.h"
 
+void stop_simulation(t_table *table)
+{
+    unsigned int i;
+
+    i = 0;
+    while (i < table->num_of_philos)
+    {
+        if (!safe_thread(&table->philos[i]->thread, NULL, NULL, JOIN))
+            exit_philo(table, ERROR_TPHILO);
+        i++;
+    }
+    if (table->num_of_philos > 1)
+    {
+        if (!safe_thread(&table->monitor, NULL, NULL, JOIN))
+            exit_philo(table, ERROR_TPHILO);
+    }
+    exit_philo(table, NULL);
+}
+
 static void	*one_philo_routine(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->table->fork_locks[philo->fork[0]]);
+	safe_mutex(&philo->table->fork_locks[philo->fork[0]], LOCK);
 	write_status(philo, GOT_FORK_1);
 	philosopher_sleeping(philo->table, philo->table->time_to_die);
 	write_status(philo, DIED);
-	pthread_mutex_unlock(&philo->table->fork_locks[philo->fork[0]]);
+	safe_mutex(&philo->table->fork_locks[philo->fork[0]], UNLOCK);
 	return (NULL);
 }
 
@@ -27,41 +46,33 @@ void *philosopher(void *data)
 		return one_philo_routine(philo);
 	if(philo->id % 2)
 		philosopher_thinking(philo, true);
-	while (has_simulation_stopped(philo->table) == false)
-		{
-			printf("%d \n", simulation_false);
-			philosopher_eat(philo);	
-			philosopher_thinking(philo, false);
-			simulation_false = get_bool(&philo->table->sim_stop_lock, &philo->table->sim_stop);
-		} 
-
-	
+	while (check_simulation(philo->table) == false)
+	{
+		philosopher_eat(philo);	
+		philosopher_thinking(philo, false);
+		simulation_false = get_bool(&philo->table->sim_stop_lock, &philo->table->sim_stop);
+	} 
 	return (NULL);
 }
 
 bool	starting_simulation(t_table *table)
 {
-    unsigned int i;
+	unsigned int i;
 
-	printf("Hello");
-    if(table->times_should_eat == 0)
-			return (NULL); 
-    table->start_time = get_time_in_ms() + (table->num_of_philos * 2 * 10);
-    i = 0;
-
-    while (i < table->num_of_philos)
-    {
-	if (!safe_thread(&table->philos[i]->thread, philosopher, table->philos[i], CREATE))
-            return (exit_philo(table, "Problem with creation of thread"));
-        printf("Thread philosopher %d created with success\n", i + 1);
-        i++;
-    }
+	if(table->times_should_eat == 0)
+		return (NULL); 
+	table->start_time = get_time_in_ms() + (table->num_of_philos * 2 * 10);
+	i = 0;
+	while (i < table->num_of_philos)
+	{
+		if (!safe_thread(&table->philos[i]->thread, philosopher, table->philos[i], CREATE))
+			return (exit_philo(table, ERROR_TPHILO));
+		i++;
+	}
 	if (table->num_of_philos > 1)
 	{
-		printf("HOHHOH");
-		if (pthread_create(&table->monitor, NULL,
-				monitor, table) != 0)
-			return (exit_philo(table, "Problem with creation of monitor thread"));
+		if (!safe_thread(&table->monitor, monitor, table, CREATE))
+			return (exit_philo(table, ERROR_TMONITOR)); 
 	}
-	return true;
+	return (true);
 }

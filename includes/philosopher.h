@@ -13,6 +13,8 @@
 #define ERROR_MALLOC "ERROR ALLOCATING MEMORY"
 #define ERROR_INIT_PHILOS " PHILOSOPHER INITIALISATION FAILED"
 #define ERROR_INIT_MUTEX "ERROR INITIALISING MUTEX"
+#define ERROR_TPHILO "ERROR CREATING PHILO THREAD"
+#define ERROR_TMONITOR "ERROR CREATING MONITOR THREAD"
 
 #include <pthread.h>
 #include <stdio.h>
@@ -27,28 +29,28 @@ typedef struct s_table t_table;
 typedef struct s_philo
 {
 	pthread_t		thread;
-    unsigned int    id;                 // Philosopher's ID (0-indexed)
-    long             times_ate;          // Count of meals eaten by this philosopher
-    long 	      last_meal_time;     // Timestamp of the last meal (in milliseconds)
-    long             fork[2];            // Indices of forks this philosopher uses
-    pthread_mutex_t meal_time_lock;     // Mutex for meal time access
-    t_table         *table;             // Pointer to the shared table structure
+	unsigned int    id;                 // Philosopher's ID (0-indexed)
+	long             times_ate;          // Count of meals eaten by this philosopher
+	long 	      last_meal_time;     // Timestamp of the last meal (in milliseconds)
+	long             fork[2];            // Indices of forks this philosopher uses
+	pthread_mutex_t meal_time_lock;     // Mutex for meal time access
+	t_table         *table;             // Pointer to the shared table structure
 } t_philo;
 
 typedef struct s_table
 {
 	pthread_t		monitor;
 	time_t 			start_time;
-    unsigned int    num_of_philos;       // Number of philosophers
-    time_t    		time_to_die;        // Time (ms) before a philosopher dies without eating
-    time_t		    time_to_eat;        // Time (ms) a philosopher spends eating
-    time_t    		time_to_sleep;      // Time (ms) a philosopher spends sleeping
-    long            times_should_eat;   // Number of meals required for each philosopher (-1 if infinite)
-    bool            sim_stop;           // Flag to stop simulation
-    pthread_mutex_t sim_stop_lock;      // Mutex for sim_stop flag
-    pthread_mutex_t write_lock;         // Mutex for console output
-    pthread_mutex_t *fork_locks;        // Array of mutexes for forks
-    struct s_philo  **philos;           // Array of pointers to philosopher structs
+	unsigned int    num_of_philos;       // Number of philosophers
+	time_t    		time_to_die;        // Time (ms) before a philosopher dies without eating
+	time_t		    time_to_eat;        // Time (ms) a philosopher spends eating
+	time_t    		time_to_sleep;      // Time (ms) a philosopher spends sleeping
+	long            times_should_eat;   // Number of meals required for each philosopher (-1 if infinite)
+	bool            sim_stop;           // Flag to stop simulation
+	pthread_mutex_t sim_stop_lock;      // Mutex for sim_stop flag
+	pthread_mutex_t write_lock;         // Mutex for console output
+	pthread_mutex_t *fork_locks;        // Array of mutexes for forks
+	struct s_philo  **philos;           // Array of pointers to philosopher structs
 } t_table;
 
 typedef enum e_status
@@ -83,11 +85,12 @@ bool initialising_table(int ac, char **av, t_table **table);
 
 //starting_simulation
 bool starting_simulation(t_table *table);void *philosopher(void *data);
+void	stop_simulation(t_table	*table);
 void *philosopher(void *data);
 
 //simulation utils
 void	write_status(t_philo *philo, t_status status);
-bool	has_simulation_stopped(t_table *table);
+bool	check_simulation(t_table *table);
 
 //philosopher_routine
 void	*philosopher_thinking(t_philo *philo, bool silent);
