@@ -1,6 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ftapponn <ftapponn@student.42heilbronn.de  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/27 16:26:40 by ftapponn          #+#    #+#             */
+/*   Updated: 2024/11/27 16:28:19 by ftapponn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/philosopher.h"
-
-
 
 static void	set_sim_stop_flag(t_table *table, bool state)
 {
@@ -35,8 +45,7 @@ static bool	end_condition_reached(t_table *table)
 		if (set_philo_die(table->philos[i]))
 			return (true);
 		if (table->times_should_eat != -1)
-			if (table->philos[i]->times_ate
-				< (unsigned int)table->times_should_eat)
+			if (table->philos[i]->times_ate < table->times_should_eat)
 				all_ate_enough = false;
 		safe_mutex(&table->philos[i]->meal_time_lock, UNLOCK);
 		i++;
@@ -51,12 +60,11 @@ static bool	end_condition_reached(t_table *table)
 
 void	*monitor(void *data)
 {
-	t_table			*table;
+	t_table	*table;
 
-	table = (t_table *)data;;
+	table = (t_table *)data;
 	if (table->times_should_eat == 0)
 		return (NULL);
-
 	set_sim_stop_flag(table, false);
 	sim_start_synchro(table->start_time);
 	while (true)

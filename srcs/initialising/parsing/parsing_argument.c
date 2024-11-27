@@ -6,7 +6,7 @@
 /*   By: ftapponn <ftapponn@student.42heilbronn.de  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 15:42:18 by ftapponn          #+#    #+#             */
-/*   Updated: 2024/11/26 10:43:00 by ftapponn         ###   ########.fr       */
+/*   Updated: 2024/11/27 16:26:28 by ftapponn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static bool	contains_only_digits(char *str)
 	}
 	return (true);
 }
+
 int	myphilo_atoi(char *str)
 {
 	unsigned long long int	nb;
@@ -48,7 +49,7 @@ bool	is_valid_input(int ac, char **av)
 	int	nb;
 
 	i = 1;
-	if(ac < 5 || ac > 6)
+	if (ac < 5 || ac > 6)
 		return (exit_philo(NULL, ERROR_ARGUMENT));
 	while (i < ac)
 	{

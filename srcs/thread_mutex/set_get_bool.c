@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_get_bool.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ftapponn <ftapponn@student.42heilbronn.de  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/27 16:32:51 by ftapponn          #+#    #+#             */
+/*   Updated: 2024/11/27 16:32:53 by ftapponn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/philosopher.h"
 
-void	set_bool(pthread_mutex_t	*mutex, bool *dst, bool value)
+void	set_bool(pthread_mutex_t *mutex, bool *dst, bool value)
 {
 	safe_mutex(mutex, LOCK);
 	*dst = value;
