@@ -4,7 +4,9 @@
 
 The Philosophers project is an implementation of the famous dining philosophers problem, a fundamental exercise in concurrency. The goal is to manage multiple threads (or processes) sharing resources (forks) without falling into race conditions or deadlocks.
 This project tests your ability to work with multithreading, synchronization with mutexes, and precise timing, while ensuring data integrity in high-concurrency situations.
-Project Objectives
+![Philosopher Table](image/philo_table.gif)
+
+__Project Objectives__
 Simulate the behavior of multiple philosophers who think, eat, and sleep.
 Ensure synchronization when sharing resources (the forks).
 Prevent race conditions and deadlocks.
